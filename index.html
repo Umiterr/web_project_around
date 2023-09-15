@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Around The U.S.</title>
+    <link rel="stylesheet" type="text/css" href="pages/index.css" />
+  </head>
+  <body>
+    <main class="content">
+      
+
+      
+
+      <header class="header">
+        <img
+          class="header__logo"
+          src="images/UI/Logo.svg"
+          alt="Around The U.S."
+        />
+      </header>
+
+      <section class="profile">
+        <img
+          class="profile__image"
+          src="images/profile/Jack-Cousteau.jpg"
+          alt="Image-profile"
+        />
+        <div class="profile__info">
+          <h2 class="profile__info-name">Jacques Cousteau</h2>
+          <h3 class="profile__about">Explorador</h3>
+        </div>
+
+        <button class="profile__edit-button">
+          <img src="images/UI/Edit-Button.svg" alt="Edit-button" />
+        </button>
+
+        <button class="profile__add-button">
+          <img src="images/UI/Add-Button.svg" alt="add-button" />
+        </button>
+      </section>
+
+      <section class="feed">
+        <template class="feed__post-template">
+          <div class="feed__post">
+            <button class="feed__trash-button">
+              <img
+                class="feed__trash-image"
+                src="images/UI/Trash.svg"
+                alt="trash"
+              />
+            </button>
+            <button class="feed__image-popup-buttom">
+              <img class="feed__image" src=" " alt="Post image" />
+            </button>
+            <h3 class="feed__title"></h3>
+            <button class="feed__heart-button">
+              <img
+                class="feed__heart-image"
+                src="images/UI/Heart-White.svg"
+                alt="Heart white"
+              />
+            </button>
+          </div>
+        </template>
+      </section>
+      <footer>	&#169;2023 Mauricio</footer>
+      <section class="form form-profile">
+        <div class="form-profile__window">
+          <h3 class="form-profile__title">Editar perfil</h3>
+
+          <button class="form-profile__close">
+            <img
+              class="form-profile__close-image"
+              src="images/UI/Close-Icon.svg"
+              alt="Close icon"
+            />
+          </button>
+          <form class="form-profile__inputs" novalidate>
+            <input
+              class="form__input form-profile__name"
+              type="text"
+              id="name-input"
+              name="nombre"
+              placeholder="Nombre"
+              minlength="2"
+              maxlength="40"
+              required
+            />
+            <span class="form__input-error name-input-error"></span>
+
+            <input
+              class="form__input form-profile__about"
+              type="text"
+              id="about-input"
+              name="acerca-de"
+              placeholder="Acerca de mí"
+              minlength="2"
+              maxlength="200"
+              required
+            />
+            <span class="form__input-error about-input-error"
+              >Este campo es obligatorio</span
+            >
+            <button class="form__submit form-profile__save" type="submit">
+              Guardar
+            </button>
+          </form>
+        </div>
+        <div class="form-profile__BG"></div>
+      </section>
+      <section class="form form-post">
+        <div class="form-post__window">
+          <h3 class="form-post__title">Nuevo lugar</h3>
+
+          <button class="form-post__close">
+            <img
+              class="form-post__close-image"
+              src="images/UI/Close-Icon.svg"
+              alt="Close icon"
+            />
+          </button>
+          <form class="form-post__inputs">
+            <input
+              class="form__input form-post__name"
+              type="text"
+              id="post-name-input"
+              name="nombre"
+              placeholder="Titulo"
+              minlength="2"
+              maxlength="30"
+              required
+            />
+            <span class="form__input-error post-name-input-error"
+              >Este campo es obligatorio</span
+            >
+            <input
+              class="form__input form-post__url"
+              type="url"
+              id="url-input"
+              name="acerca-de"
+              placeholder="URL de la imagen"
+              required
+            />
+            <span class="form__input-error url-input-error"
+              >Este campo es obligatorio</span
+            >
+            <button
+              class="form__submit form-post__save form__submit_inactive"
+              type="submit"
+              disabled
+            >
+              Guardar
+            </button>
+          </form>
+        </div>
+        <div class="form-post__BG"></div>
+      </section>
+
+      <section class="image-popup">
+        <div class="image-popup__container">
+          <button class="image-popup__close">
+            <img
+              class="image-popup__close-image"
+              src="images/UI/Close-Icon.svg"
+              alt="Close icon"
+            />
+          </button>
+          <img
+            class="image-popup__image"
+            src="images/El-Gran-Canon-2.jpg"
+            alt="Post image"
+          />
+          <h4 class="image-popup__title">Valle de Yosemite test</h4>
+        </div>
+        <div class="image-popup__BG"></div>
+      </section>
+    </main>
+    <script type="module" src="scripts/index.js"></script>
+    <script type="module" src="scripts/FormValidator.js"></script>
+    <script type="module" src="scripts/Card.js"></script>
+    <script type="module" src="scripts/utils.js"></script>
+  </body>
+</html>
