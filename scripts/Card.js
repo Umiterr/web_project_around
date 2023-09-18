@@ -1,8 +1,6 @@
 //Imports
 
-import { disablePostButton as disablePostButton } from "./FormValidator.js";
-import { setLikeEventListener as setLikeEventListener } from "./utils.js";
-import { setImagePopupEventListener as setImagePopupEventListener } from "./index.js";
+import { setImagePopupEventListener } from "./utils.js";
 
 const items = [
   { title: "Sodoma County", imageURL: "images/Bliss.jpg" },
@@ -80,6 +78,14 @@ function addNewCard(event) {
     }
   }
 
+  //Disables Post button after adding a new post
+  const disablePostButton = () => {
+    const formPostElement = document.querySelector(".form-post");
+    const buttonPostElement = formPostElement.querySelector(".form-post__save");
+    buttonPostElement.classList.add("form__submit_inactive");
+    buttonPostElement.disabled = true;
+  };
+
   function createNewCard() {
     const newCardData = getNewCardData(items);
     const newCard = new Card(newCardData, ".feed__post-template");
@@ -96,6 +102,24 @@ function addNewCard(event) {
   }
 
   createNewCard();
+}
+
+// heart button
+
+const heartButtons = document.querySelectorAll(".feed__heart-button");
+
+heartButtons.forEach(function (button) {
+  setLikeEventListener(button);
+});
+
+function setLikeEventListener(button) {
+  button.addEventListener("click", function () {
+    const clickedButton = button.closest(".feed__heart-button");
+    const heartImage = button.querySelector(".feed__heart-image");
+    if (clickedButton) {
+      heartImage.classList.toggle("feed__heart-button_on");
+    }
+  });
 }
 
 // Card save posts buttons
