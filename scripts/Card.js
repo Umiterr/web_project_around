@@ -118,6 +118,13 @@ function setLikeEventListener(button) {
     const heartImage = button.querySelector(".feed__heart-image");
     if (clickedButton) {
       heartImage.classList.toggle("feed__heart-button_on");
+      
+      // Cambiar el atributo "alt" de la imagen
+      if (heartImage.alt === "Corazón con me gusta") {
+        heartImage.alt = "Corazón sin me gusta";
+      } else {
+        heartImage.alt = "Corazón con me gusta";
+      }
     }
   });
 }

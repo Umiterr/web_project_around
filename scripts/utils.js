@@ -1,3 +1,14 @@
+
+
+function toggleForm(form, type){
+  if(type !== "profile" && type !== "post") {
+    return 
+  }
+  form.classList.toggle(`form-${type}_on`);
+}
+
+
+
 // Edit profile form
 
 // Open/Close
@@ -7,22 +18,18 @@ const profileButton = document.querySelector(".profile__edit-button");
 const profileOn = document.querySelector(".form-profile_on");
 const profileBG = document.querySelector(".form-profile__BG");
 
-function toggleProfile(form) {
-  form.classList.toggle("form-profile_on");
-}
+profileBG.addEventListener("click", () => toggleForm(formProfile, "profile"));
 
-profileBG.addEventListener("click", () => toggleProfile(formProfile));
+closeButton.addEventListener("click", () => toggleForm(formProfile, "profile"));
 
-closeButton.addEventListener("click", () => toggleProfile(formProfile));
-
-profileButton.addEventListener("click", () => toggleProfile(formProfile));
+profileButton.addEventListener("click", () => toggleForm(formProfile, "profile"));
 
 document.addEventListener("keydown", (event) => {
   if (
     event.key === "Escape" &&
     formProfile.classList.contains("form-profile_on")
   ) {
-    toggleProfile(formProfile);
+    toggleForm(formProfile, "profile");
   }
 });
 
@@ -52,18 +59,14 @@ const postButtonAdd = document.querySelector(".profile__add-button");
 const postInput = document.querySelector(".form-post__inputs");
 const postBG = document.querySelector(".form-post__BG");
 
-function togglePost(form) {
-  form.classList.toggle("form-post_on");
-}
-
-postBG.addEventListener("click", () => togglePost(formPost));
-closeButtonPost.addEventListener("click", () => togglePost(formPost));
-postButtonSave.addEventListener("click", () => togglePost(formPost));
-postButtonAdd.addEventListener("click", () => togglePost(formPost));
+postBG.addEventListener("click", () => toggleForm(formPost, "post"));
+closeButtonPost.addEventListener("click", () => toggleForm(formPost, "post"));
+postButtonSave.addEventListener("click", () => toggleForm(formPost, "post"));
+postButtonAdd.addEventListener("click", () => toggleForm(formPost, "post"));
 
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && formPost.classList.contains("form-post_on")) {
-    togglePost(formPost);
+    toggleForm(formPost, "post");
   }
 });
 
