@@ -1,13 +1,9 @@
-
-
-function toggleForm(form, type){
-  if(type !== "profile" && type !== "post") {
-    return 
+function toggleForm(form, type) {
+  if (type !== "profile" && type !== "post") {
+    return;
   }
   form.classList.toggle(`form-${type}_on`);
 }
-
-
 
 // Edit profile form
 
@@ -22,7 +18,9 @@ profileBG.addEventListener("click", () => toggleForm(formProfile, "profile"));
 
 closeButton.addEventListener("click", () => toggleForm(formProfile, "profile"));
 
-profileButton.addEventListener("click", () => toggleForm(formProfile, "profile"));
+profileButton.addEventListener("click", () =>
+  toggleForm(formProfile, "profile")
+);
 
 document.addEventListener("keydown", (event) => {
   if (
@@ -47,6 +45,18 @@ function refreshProfile() {
 }
 
 refreshProfile();
+
+// Save profile
+function edit(event) {
+  event.preventDefault();
+  profileName.textContent = profileNameForm.value;
+  profileAbout.textContent = profileAboutForm.value;
+
+  toggleProfile(formProfile);
+}
+
+profileSaveButton.addEventListener("click", edit);
+profileInput.addEventListener("submit", edit);
 
 // post form
 
