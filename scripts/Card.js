@@ -1,6 +1,6 @@
 //Imports
 
-import { setImagePopupEventListener } from "./utils.js";
+import { setImagePopupEventListener } from "./utils/ImagePopupModule.js";
 
 const items = [
   { title: "Sodoma County", imageURL: "images/Bliss.jpg" },
