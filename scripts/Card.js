@@ -1,6 +1,6 @@
 //Imports
 
-import { setImagePopupEventListener } from "./utils.js";
+import PopupWithImage from "./PopupWithImage.js";
 
 const items = [
   { title: "Sodoma County", imageURL: "images/Bliss.jpg" },
@@ -16,11 +16,14 @@ const postButtonSave = document.querySelector(".form-post__save");
 const postInput = document.querySelector(".form-post__inputs");
 
 class Card {
-  constructor(data, cardSelector) {
-    this._cardSelector = cardSelector;
+  constructor({data, cardSelector, handleCardClick}) {
     this._title = data.title;
+    this._cardSelector = cardSelector;
+    this._handleCardClick = handleCardClick;
     this._imageURL = data.imageURL;
     this._imageAlt = data.title;
+    
+    
   }
 
   _getTemplate() {
@@ -40,13 +43,19 @@ class Card {
     });
 
     //Heart new button
-    const imageButton = this._element.querySelector(
-      ".feed__image-popup-buttom"
-    );
-    setImagePopupEventListener(imageButton);
     const likeButton = this._element.querySelector(".feed__heart-button");
     setLikeEventListener(likeButton);
+
+// PopupWithImage
+    const imageButton = this._element.querySelector(".feed__image-popup-buttom");
+    imageButton.addEventListener("click", () => {
+      this._handleCardClick();
+    });
+
+
   }
+
+   
 
   generateCard() {
     this._element = this._getTemplate();
@@ -90,6 +99,8 @@ function addNewCard(event) {
     const newCardData = getNewCardData(items);
     const newCard = new Card(newCardData, ".feed__post-template");
     const cardElement = newCard.generateCard();
+
+
     feed.prepend(cardElement);
 
     function resetFormData() {
@@ -129,17 +140,4 @@ function setLikeEventListener(button) {
   });
 }
 
-// Card save posts buttons
-
-postButtonSave.addEventListener("click", addNewCard);
-postInput.addEventListener("submit", addNewCard);
-
-// Default posts
-
-items.forEach((item, i) => {
-  const newCard = new Card(item, ".feed__post-template");
-  const cardElement = newCard.generateCard();
-  feed.prepend(cardElement);
-});
-
-export { feed, postButtonSave, postInput };
+export { feed, postButtonSave, postInput, Card, items, addNewCard };

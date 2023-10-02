@@ -1,4 +1,5 @@
-function toggleForm(form, type) {
+/* import PopupWithImage from "./PopupWithImage";
+ function toggleForm(form, type) {
   if (type !== "profile" && type !== "post") {
     return;
   }
@@ -119,7 +120,8 @@ buttonPopups.forEach(function (button) {
   setImagePopupEventListener(button);
 });
 
-function setImagePopupEventListener(button) {
+
+ function setImagePopupEventListener(button) {
   const feedImage = button.querySelector(".feed__image");
   const feedTitle = button.closest(".feed__post").querySelector(".feed__title");
 
@@ -132,4 +134,5 @@ function setImagePopupEventListener(button) {
   });
 }
 
-export { setImagePopupEventListener };
+export { setImagePopupEventListener }; 
+ */
