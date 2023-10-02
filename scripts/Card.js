@@ -76,7 +76,6 @@ function addNewCard(event) {
   addNewCardData(items, formPostName, formPostURL);
 
   function getNewCardData(arr) {
-    console.log(arr);
     if (arr.length > 0) {
       const newData = arr[arr.length - 1];
       return newData;
@@ -93,7 +92,7 @@ function addNewCard(event) {
 
   function createNewCard() {
     const newCardData = getNewCardData(items);
-    console.log("newCardData", newCardData);
+
     const newCard = new Card({
       data: newCardData,
       cardSelector: ".feed__post-template",

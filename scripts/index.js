@@ -76,9 +76,9 @@ const postButton = document.querySelector(".profile__add-button");
 const profileButton = document.querySelector(".profile__edit-button");
 
 postButton.addEventListener("click", () => {
-  profileForm.open();
+  postForm.open();
 });
 
 profileButton.addEventListener("click", () => {
-  postForm.open();
+  profileForm.open();
 });

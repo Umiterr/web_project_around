@@ -30,7 +30,6 @@ export default class PopupWithForm extends Popup {
     this._form.addEventListener("submit", (event) => {
       if (this._form === document.querySelector(`.form-profile__inputs`)) {
         this._handleFormSubmit(this._getInputValues());
-        console.log("profile");
         this.close();
       } else {
         this._handleFormSubmit(event);
