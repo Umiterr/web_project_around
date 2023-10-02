@@ -16,14 +16,12 @@ const postButtonSave = document.querySelector(".form-post__save");
 const postInput = document.querySelector(".form-post__inputs");
 
 class Card {
-  constructor({data, cardSelector, handleCardClick}) {
+  constructor({ data, cardSelector, handleCardClick }) {
     this._title = data.title;
     this._cardSelector = cardSelector;
     this._handleCardClick = handleCardClick;
     this._imageURL = data.imageURL;
     this._imageAlt = data.title;
-    
-    
   }
 
   _getTemplate() {
@@ -46,16 +44,14 @@ class Card {
     const likeButton = this._element.querySelector(".feed__heart-button");
     setLikeEventListener(likeButton);
 
-// PopupWithImage
-    const imageButton = this._element.querySelector(".feed__image-popup-buttom");
+    // PopupWithImage
+    const imageButton = this._element.querySelector(
+      ".feed__image-popup-buttom"
+    );
     imageButton.addEventListener("click", () => {
-      this._handleCardClick();
+      this._handleCardClick({ title: this._title, imageURL: this._imageURL });
     });
-
-
   }
-
-   
 
   generateCard() {
     this._element = this._getTemplate();
@@ -77,10 +73,10 @@ function addNewCard(event) {
   function addNewCardData(data, title, imageURL) {
     data.push({ title: title, imageURL: imageURL });
   }
-
   addNewCardData(items, formPostName, formPostURL);
 
   function getNewCardData(arr) {
+    console.log(arr);
     if (arr.length > 0) {
       const newData = arr[arr.length - 1];
       return newData;
@@ -97,9 +93,13 @@ function addNewCard(event) {
 
   function createNewCard() {
     const newCardData = getNewCardData(items);
-    const newCard = new Card(newCardData, ".feed__post-template");
+    console.log("newCardData", newCardData);
+    const newCard = new Card({
+      data: newCardData,
+      cardSelector: ".feed__post-template",
+      handleCardClick: () => {},
+    });
     const cardElement = newCard.generateCard();
-
 
     feed.prepend(cardElement);
 

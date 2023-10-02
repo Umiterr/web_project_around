@@ -22,6 +22,8 @@ import PopupWithForm from "./PopupWithForm.js";
 import UserInfo from "./UserInfo.js";
 
 //Card Generator
+
+const imagePopup = new PopupWithImage({ popupSelector: "image-popup" });
 const cardsList = new Section(
   {
     items: items,
@@ -31,12 +33,8 @@ const cardsList = new Section(
         cardSelector: ".feed__post-template",
         handleCardClick: (cardItem) => {
           //Image popup
-          const imagePopup = new PopupWithImage({
-            popupSelector: "image-popup",
-          });
-          console.log(cardItem);
-        const title = cardItem.title;
-        const imageURL = cardItem.imageURL;
+          const title = cardItem.title;
+          const imageURL = cardItem.imageURL;
 
           imagePopup.open(title, imageURL);
         },
@@ -71,10 +69,16 @@ const profileForm = new PopupWithForm({
 //Post
 const postForm = new PopupWithForm({
   popupSelector: "form-post",
-  handleFormSubmit: () => {
-    postInput.addEventListener("submit", addNewCard);
-  },
+  handleFormSubmit: addNewCard,
 });
 
-//Image popup
-const imagePopup = new PopupWithImage("image-popup");
+const postButton = document.querySelector(".profile__add-button");
+const profileButton = document.querySelector(".profile__edit-button");
+
+postButton.addEventListener("click", () => {
+  profileForm.open();
+});
+
+profileButton.addEventListener("click", () => {
+  postForm.open();
+});
