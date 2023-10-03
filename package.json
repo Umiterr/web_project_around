@@ -1,0 +1,31 @@
+{
+  "dependencies": {
+    "core-js": "^3.33.0",
+    "html-webpack-plugin": "^5.5.3",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
+  },
+  "name": "web_project_around",
+  "description": "Este proyecto es un perfil interactivo llamado \"Around The U.S.\", donde los usuarios pueden editar información sobre sí mismos y agregar imágenes de lugares. Se han implementado varias funcionalidades con JavaScript para aumentar la interactividad y la funcionalidad del sitio web.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --mode development",
+    "dev": "webpack serve"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.23.0",
+    "@babel/preset-env": "^7.22.20",
+    "autoprefixer": "^10.4.16",
+    "babel-loader": "^9.1.3",
+    "clean-webpack-plugin": "^4.0.0",
+    "css-loader": "^6.8.1",
+    "cssnano": "^6.0.1",
+    "mini-css-extract-plugin": "^2.7.6",
+    "postcss-loader": "^7.3.3"
+  }
+}
