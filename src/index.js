@@ -4,9 +4,8 @@ import headerlogo from "./images/UI/Logo.svg";
 import profilepic from "./images/profile/Jack-Cousteau.jpg";
 import editbuttonpic from "./images/UI/Edit-Button.svg";
 import addbuttonpic from "./images/UI/Add-Button.svg";
-import trashpic from "./images/UI/Trash.svg";
-import heartbuttonpic from "./images/UI/Heart-White.svg";
 import closepic from "./images/UI/Close-Icon.svg";
+
 //Card imports
 import Section from "./Section.js";
 import {
@@ -105,11 +104,11 @@ editbuttonimage.src = editbuttonpic;
 const addbuttonimage = document.getElementById("profile__add-button");
 addbuttonimage.src = addbuttonpic;
 
-const trashimage = document.getElementById("feed__trash-image");
-trashimage.src = trashpic;
+const trashimage = document.querySelectorAll("feed__trash-image");
+trashimage.forEach((src) => (src.src = trashpic));
 
-const heartbuttonimage = document.getElementById("feed__heart-image");
-heartbuttonimage.src = heartbuttonpic;
+const heartbuttonimage = document.querySelectorAll("feed__heart-image");
+heartbuttonimage.forEach((src) => (src.src = heartbuttonpic));
 
 const profilecloseimage = document.getElementById("form-profile__close-image");
 profilecloseimage.src = closepic;

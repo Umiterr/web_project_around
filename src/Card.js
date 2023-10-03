@@ -1,14 +1,25 @@
 //Imports
 
 import PopupWithImage from "./PopupWithImage.js";
+import trashpic from "./images/UI/Trash.svg";
+import heartbuttonpic from "./images/UI/Heart-White.svg";
+
+// default post images imports
+
+import sodomacounty from "./images/Bliss.jpg";
+import elgrancanon2 from "./images/El-Gran-Canon-2.jpg";
+import elgrancanon from "./images/El-Gran-Canon.jpg";
+import montanascalvas from "./images/Montanas-Calvas.jpg";
+import lagolouise from "./images/Lago-louise.jpg";
+import valleyosemite from "./images/Yosemite.jpg";
 
 const items = [
-  { title: "Sodoma County", imageURL: "images/Bliss.jpg" },
-  { title: "El Gran Cañón 2", imageURL: "images/El-Gran-Canon-2.jpg" },
-  { title: "El Gran Cañón", imageURL: "images/El-Gran-Canon.jpg" },
-  { title: "Montañas Calvas", imageURL: "images/Montanas-Calvas.jpg" },
-  { title: "Lago-louise", imageURL: "images/Lago-louise.jpg" },
-  { title: "Valle de Yosemite", imageURL: "images/Yosemite.jpg" },
+  { title: "Sodoma County", imageURL: sodomacounty },
+  { title: "El Gran Cañón 2", imageURL: elgrancanon2 },
+  { title: "El Gran Cañón", imageURL: elgrancanon },
+  { title: "Montañas Calvas", imageURL: montanascalvas },
+  { title: "Lago-louise", imageURL: lagolouise },
+  { title: "Valle de Yosemite", imageURL: valleyosemite },
 ];
 
 const feed = document.querySelector(".feed");
@@ -60,6 +71,8 @@ class Card {
     this._element.querySelector(".feed__image").src = this._imageURL;
     this._element.querySelector(".feed__title").textContent = this._title;
     this._element.querySelector(".feed__image").alt = this._title;
+    this._element.querySelector(".feed__trash-image").src = trashpic;
+    this._element.querySelector(".feed__heart-image").src = heartbuttonpic;
 
     return this._element;
   }
