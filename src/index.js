@@ -1,4 +1,5 @@
 // imports
+import "./pages/index.css";
 //images
 import headerlogo from "./images/UI/Logo.svg";
 import profilepic from "./images/profile/Jack-Cousteau.jpg";
@@ -88,8 +89,6 @@ postButton.addEventListener("click", () => {
 profileButton.addEventListener("click", () => {
   profileForm.open();
 });
-
-import "./pages/index.css";
 
 //const images
 const headerImage = document.getElementById("header-logo");
