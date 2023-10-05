@@ -73,6 +73,18 @@ const profileForm = new PopupWithForm({
   },
 });
 
+// Default Profile info
+const userDataDefault = new UserInfo({
+  nameSelector: ".profile__info-name",
+  jobSelector: ".profile__about",
+});
+
+const profileValues = userDataDefault.getUserInfo();
+profileForm.setInputValues({
+  input1: profileValues.name,
+  input2: profileValues.job,
+});
+
 //Post
 const postForm = new PopupWithForm({
   popupSelector: "form-post",

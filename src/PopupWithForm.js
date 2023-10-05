@@ -21,6 +21,12 @@ export default class PopupWithForm extends Popup {
     return this._formValues;
   }
 
+  setInputValues({ input1, input2 }) {
+    this._inputList = Array.from(this._form.querySelectorAll(".form__input"));
+    this._inputList[0].value = input1;
+    this._inputList[1].value = input2;
+  }
+
   close() {
     super.close();
   }
