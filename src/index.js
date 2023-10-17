@@ -8,6 +8,49 @@ import addbuttonpic from "./images/UI/Add-Button.svg";
 import closepic from "./images/UI/Close-Icon.svg";
 import profileeditpic from "./images/UI/Edit-Profile-Icon.svg";
 
+import Api from "./lib/fetch";
+
+// Fetch data (Cards)
+const api = new Api({
+  groupId: "web_es_09",
+  baseUrl: "https://around.nomoreparties.co/v1",
+  resource: "cards",
+  headers: {
+    authorization: "c56e30dc-2883-4270-a59e-b2f7bae969c6",
+    "Content-Type": "application/json",
+  },
+});
+
+let store = [];
+
+api.getInitialCards().then((items) => {
+  const cardsList = new Section(
+    {
+      items,
+      renderer: (cardItem) => {
+        console.log("cardItem", cardItem);
+        const newCard = new Card({
+          data: cardItem,
+          cardSelector: ".feed__post-template",
+          handleCardClick: (cardItem) => {
+            //Image popup
+            const title = cardItem.title;
+            const imageURL = cardItem.imageURL;
+
+            imagePopup.open(title, imageURL);
+          },
+        });
+        const cardElement = newCard.generateCard();
+
+        cardsList.addItem(cardElement);
+      },
+    },
+    ".feed"
+  );
+
+  cardsList.renderItems();
+});
+
 //Card imports
 import Section from "./Section.js";
 import {
@@ -35,7 +78,7 @@ const imagePopup = new PopupWithImage({ popupSelector: "image-popup" });
 
 const cardsList = new Section(
   {
-    items: items,
+    items: store,
     renderer: (cardItem) => {
       const newCard = new Card({
         data: cardItem,
