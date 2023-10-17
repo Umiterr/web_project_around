@@ -6,6 +6,7 @@ import profilepic from "./images/profile/Jack-Cousteau.jpg";
 import editbuttonpic from "./images/UI/Edit-Button.svg";
 import addbuttonpic from "./images/UI/Add-Button.svg";
 import closepic from "./images/UI/Close-Icon.svg";
+import profileeditpic from "./images/UI/Edit-Profile-Icon.svg";
 
 //Card imports
 import Section from "./Section.js";
@@ -31,6 +32,7 @@ import UserInfo from "./UserInfo.js";
 //Card Generator
 
 const imagePopup = new PopupWithImage({ popupSelector: "image-popup" });
+
 const cardsList = new Section(
   {
     items: items,
@@ -102,6 +104,13 @@ profileButton.addEventListener("click", () => {
   profileForm.open();
 });
 
+//Delete post
+
+/* const deletePost = new PopupWithForm({
+  popupSelector: "form-confirm",
+  handleFormSubmit: ,
+}); */
+
 //const images
 const headerImage = document.getElementById("header-logo");
 headerImage.src = headerlogo;
@@ -127,7 +136,18 @@ profilecloseimage.src = closepic;
 const postcloseimage = document.getElementById("form-post__close-image");
 postcloseimage.src = closepic;
 
+const confirmcloseimage = document.getElementById("form-confirm__close-image");
+confirmcloseimage.src = closepic;
+
+const imageprofileclose = document.getElementById(
+  "form-image-profile__close-image"
+);
+imageprofileclose.src = closepic;
+
 const popupimagecloseimage = document.getElementById(
   "image-popup__close-image"
 );
 popupimagecloseimage.src = closepic;
+
+const profileeditimage = document.getElementById("profile-edit-icon");
+profileeditimage.src = profileeditpic;

@@ -13,6 +13,7 @@
       </header>
 
       <section class="profile">
+        <img class="profile__edit-icon" id="profile-edit-icon" alt="icono de editar imagen" />
         <img class="profile__image" id="profile-image" alt="imagen de perfil" />
         <div class="profile__info">
           <h2 class="profile__info-name">Jacques Cousteau</h2>
@@ -49,6 +50,7 @@
                 alt="Corazón sin me gusta"
               />
             </button>
+            <p class="feed__heart-likes">0</p>
           </div>
         </template>
       </section>
@@ -97,6 +99,42 @@
         </div>
         <div class="form-profile__BG"></div>
       </section>
+
+      <section class="form form-image-profile">
+        <div class="form-image-profile__window">
+          <h3 class="form-image-profile__title">Cambiar foto de perfil</h3>
+
+          <button class="form-image-profile__close">
+            <img
+              class="form-image-profile__close-image"
+              id="form-image-profile__close-image"
+              alt="icono de cerrar"
+            />
+          </button>
+          <form class="form-image-profile__inputs">
+            <input
+              class="form__input form-image-profile__url"
+              type="url"
+              id="url-profile-image-input"
+              name="acerca-de"
+              placeholder="URL de la imagen"
+              required
+            />
+            <span class="form__input-error url-input-error"
+              >Este campo es obligatorio</span
+            >
+            <button
+              class="form__submit form-image-profile__save form__submit_inactive"
+              type="submit"
+              disabled
+            >
+              Guardar
+            </button>
+          </form>
+        </div>
+        <div class="form-image-profile__BG"></div>
+      </section>
+
       <section class="form form-post">
         <div class="form-post__window">
           <h3 class="form-post__title">Nuevo lugar</h3>
@@ -138,11 +176,34 @@
               type="submit"
               disabled
             >
-              Guardar
+              Crea
             </button>
           </form>
         </div>
         <div class="form-post__BG"></div>
+      </section>
+      <section class="form form-confirm">
+        <div class="form-confirm__window">
+          <h3 class="form-confirm__title">¿Estás seguro?</h3>
+
+          <button class="form-confirm__close">
+            <img
+              class="form-confirm__close-image"
+              id="form-confirm__close-image"
+              alt="icono de cerrar"
+            />
+          </button>
+          
+            <button
+              class="form__submit form-confirm__save form__submit_inactive"
+              type="submit"
+              disabled
+            >
+              Si
+            </button>
+          </form>
+        </div>
+        <div class="form-confirm__BG"></div>
       </section>
 
       <section class="image-popup">
