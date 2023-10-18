@@ -1,5 +1,5 @@
 //Imports
-
+import PopupConfirm from "./PopupConfirm.js";
 import PopupWithImage from "./PopupWithImage.js";
 import trashpic from "./images/UI/Trash.svg";
 import heartbuttonpic from "./images/UI/Heart-White.svg";
@@ -12,6 +12,7 @@ import elgrancanon from "./images/El-Gran-Canon.jpg";
 import montanascalvas from "./images/Montanas-Calvas.jpg";
 import lagolouise from "./images/Lago-louise.jpg";
 import valleyosemite from "./images/Yosemite.jpg";
+import PopupWithForm from "./PopupWithForm.js";
 
 const items = [
   { title: "Sodoma County", imageURL: sodomacounty },
@@ -47,9 +48,12 @@ class Card {
   _setEventListeners() {
     // Delete new posts
     const deleteButton = this._element.querySelector(".feed__trash-button");
-    deleteButton.addEventListener("click", () => {
-      this._element.remove();
-    });
+    setDeletePopupEventListener(deleteButton);
+
+    /*  deleteButton.addEventListener("click", () => {
+       this._element.remove(); 
+      
+    }); */
 
     //Heart new button
     const likeButton = this._element.querySelector(".feed__heart-button");
@@ -125,6 +129,30 @@ function addNewCard(event) {
   }
 
   createNewCard();
+}
+
+// delete button
+
+//Delete post
+
+const deleteButtons = document.querySelectorAll(".feed__trash-button");
+
+deleteButtons.forEach(function (button) {
+  setDeletePopupEventListener(button);
+});
+
+function setDeletePopupEventListener(button) {
+  button.addEventListener("click", function () {
+    const clickedButton = button.closest(".feed__trash-button");
+    if (clickedButton) {
+      const card = button.closest(".feed__post");
+      const deletePost = new PopupConfirm({
+        popupSelector: "form-confirm",
+        card,
+      });
+      deletePost.open();
+    }
+  });
 }
 
 // heart button

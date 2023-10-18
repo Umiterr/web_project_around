@@ -1,5 +1,5 @@
 export default class Popup {
-  constructor({popupSelector}) {
+  constructor({ popupSelector }) {
     this._popup = document.querySelector(`.${popupSelector}`);
     this._handleEscClose = this._handleEscClose.bind(this);
     this._popupSelector = popupSelector;
@@ -22,11 +22,15 @@ export default class Popup {
   }
 
   setEventListeners() {
-    this._popup.querySelector(`.${this._popupSelector}__close`).addEventListener("click", () => {
-      this.close();
-    });
-    this._popup.querySelector(`.${this._popupSelector}__BG`).addEventListener("click", () => {
-      this.close();
-    });
+    this._popup
+      .querySelector(`.${this._popupSelector}__close`)
+      .addEventListener("click", () => {
+        this.close();
+      });
+    this._popup
+      .querySelector(`.${this._popupSelector}__BG`)
+      .addEventListener("click", () => {
+        this.close();
+      });
   }
 }

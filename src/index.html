@@ -13,7 +13,7 @@
       </header>
 
       <section class="profile">
-        <img class="profile__edit-icon" id="profile-edit-icon" alt="icono de editar imagen" />
+        <button class="profile__edit-image-button"><img class="profile__edit-icon" id="profile-edit-icon" alt="icono de editar imagen" /></button>
         <img class="profile__image" id="profile-image" alt="imagen de perfil" />
         <div class="profile__info">
           <h2 class="profile__info-name">Jacques Cousteau</h2>
@@ -116,7 +116,7 @@
               class="form__input form-image-profile__url"
               type="url"
               id="url-profile-image-input"
-              name="acerca-de"
+              name="profileImageUrl"
               placeholder="URL de la imagen"
               required
             />
@@ -195,9 +195,9 @@
           </button>
           
             <button
-              class="form__submit form-confirm__save form__submit_inactive"
+              class="form__submit form-confirm__save"
               type="submit"
-              disabled
+              
             >
               Si
             </button>

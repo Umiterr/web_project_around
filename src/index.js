@@ -19,19 +19,38 @@ import {
   addNewCard,
 } from "./Card.js";
 
+//API import
+import Api from "./Api";
+
 //FormValidator import
 import * as FormValidator from "./FormValidator.js";
 
 //Popups imports
 import PopupWithImage from "./PopupWithImage.js";
 import PopupWithForm from "./PopupWithForm.js";
+import PopupProfileImage from "./PopupProfileImage";
 
 //UserInfo import
 import UserInfo from "./UserInfo.js";
 
 //Card Generator
 
+const apiCards = new Api({
+  groupId: "web_es_09",
+  baseUrl: "https://around.nomoreparties.co/v1",
+  resource: "cards",
+});
+
+const Cards = apiCards.getInitialCards().then((result) => {
+  console.log(result);
+  return result;
+});
+
+console.log(Cards);
+
 const imagePopup = new PopupWithImage({ popupSelector: "image-popup" });
+
+//Render default cards
 
 const cardsList = new Section(
   {
@@ -87,6 +106,25 @@ profileForm.setInputValues({
   input2: profileValues.job,
 });
 
+// Image Profile editor
+const profileImageButton = document.querySelector(".profile__edit-icon");
+setImageProfileEventListener(profileImageButton);
+
+function setImageProfileEventListener(button) {
+  button.addEventListener("click", () => {
+    const imageProfilePopup = new PopupProfileImage({
+      popupSelector: "form-image-profile",
+    });
+    const profileEditImageButton = document.querySelector(
+      ".profile__edit-image-button"
+    );
+
+    profileEditImageButton.addEventListener("click", () => {
+      imageProfilePopup.open();
+    });
+  });
+}
+
 //Post
 const postForm = new PopupWithForm({
   popupSelector: "form-post",
@@ -103,13 +141,6 @@ postButton.addEventListener("click", () => {
 profileButton.addEventListener("click", () => {
   profileForm.open();
 });
-
-//Delete post
-
-/* const deletePost = new PopupWithForm({
-  popupSelector: "form-confirm",
-  handleFormSubmit: ,
-}); */
 
 //const images
 const headerImage = document.getElementById("header-logo");
