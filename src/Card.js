@@ -3,25 +3,9 @@ import PopupConfirm from "./PopupConfirm.js";
 import PopupWithImage from "./PopupWithImage.js";
 import trashpic from "./images/UI/Trash.svg";
 import heartbuttonpic from "./images/UI/Heart-White.svg";
+import Api from "./Api.js";
 
-// default post images imports
-
-import sodomacounty from "./images/Bliss.jpg";
-import elgrancanon2 from "./images/El-Gran-Canon-2.jpg";
-import elgrancanon from "./images/El-Gran-Canon.jpg";
-import montanascalvas from "./images/Montanas-Calvas.jpg";
-import lagolouise from "./images/Lago-louise.jpg";
-import valleyosemite from "./images/Yosemite.jpg";
-import PopupWithForm from "./PopupWithForm.js";
-
-const items = [
-  { title: "Sodoma County", imageURL: sodomacounty },
-  { title: "El Gran Cañón 2", imageURL: elgrancanon2 },
-  { title: "El Gran Cañón", imageURL: elgrancanon },
-  { title: "Montañas Calvas", imageURL: montanascalvas },
-  { title: "Lago-louise", imageURL: lagolouise },
-  { title: "Valle de Yosemite", imageURL: valleyosemite },
-];
+const items = [];
 
 const feed = document.querySelector(".feed");
 const postButtonSave = document.querySelector(".form-post__save");
@@ -29,11 +13,13 @@ const postInput = document.querySelector(".form-post__inputs");
 
 class Card {
   constructor({ data, cardSelector, handleCardClick }) {
-    this._title = data.title;
+    this._title = data.name;
     this._cardSelector = cardSelector;
     this._handleCardClick = handleCardClick;
-    this._imageURL = data.imageURL;
-    this._imageAlt = data.title;
+    this._imageURL = data.link;
+    this._imageAlt = data.name;
+    this._id = data._id;
+    this._likes = data.likes;
   }
 
   _getTemplate() {
@@ -50,11 +36,6 @@ class Card {
     const deleteButton = this._element.querySelector(".feed__trash-button");
     setDeletePopupEventListener(deleteButton);
 
-    /*  deleteButton.addEventListener("click", () => {
-       this._element.remove(); 
-      
-    }); */
-
     //Heart new button
     const likeButton = this._element.querySelector(".feed__heart-button");
     setLikeEventListener(likeButton);
@@ -68,7 +49,7 @@ class Card {
     });
   }
 
-  generateCard() {
+  generateCard({ cardOnline, clientUsername }) {
     this._element = this._getTemplate();
     this._setEventListeners();
 
@@ -77,58 +58,60 @@ class Card {
     this._element.querySelector(".feed__image").alt = this._title;
     this._element.querySelector(".feed__trash-image").src = trashpic;
     this._element.querySelector(".feed__heart-image").src = heartbuttonpic;
+    this._element.querySelector(".feed__heart-likes").textContent =
+      this._likes.length;
+    this._element.querySelector(".feed__heart-likes").id = this._id;
+
+    this._element.id = this._id;
+
+    if (!(cardOnline.owner.name === clientUsername)) {
+      const trashButton = this._element.querySelector(".feed__trash-button");
+
+      trashButton.remove();
+    }
+
+    const like = this._element.querySelector(".feed__heart-likes");
+    const heartImage = this._element.querySelector(".feed__heart-image");
+
+    if (
+      cardOnline.likes.some((like) => like.name === clientUsername) &&
+      parseInt(like.textContent) >= 1
+    ) {
+      heartImage.classList.toggle("feed__heart-button_on");
+    } else if (parseInt(like.textContent) === 0) {
+      like.style.color = "transparent";
+    }
 
     return this._element;
   }
+
+  removeTrashButtons() {}
 }
 
-function addNewCard(event) {
-  event.preventDefault();
-  const formPostName = document.querySelector(".form-post__name").value;
-  const formPostURL = document.querySelector(".form-post__url").value;
+function addNewCard({ cardOnline, clientUsername }) {
+  disablePostButton();
 
-  function addNewCardData(data, title, imageURL) {
-    data.push({ title: title, imageURL: imageURL });
-  }
-  addNewCardData(items, formPostName, formPostURL);
+  const newCard = new Card({
+    data: cardOnline,
+    cardSelector: ".feed__post-template",
+    handleCardClick: () => {},
+  });
 
-  function getNewCardData(arr) {
-    if (arr.length > 0) {
-      const newData = arr[arr.length - 1];
-      return newData;
-    }
-  }
+  items.push(cardOnline);
 
-  //Disables Post button after adding a new post
-  const disablePostButton = () => {
-    const formPostElement = document.querySelector(".form-post");
-    const buttonPostElement = formPostElement.querySelector(".form-post__save");
-    buttonPostElement.classList.add("form__submit_inactive");
-    buttonPostElement.disabled = true;
-  };
+  const cardElement = newCard.generateCard({ cardOnline, clientUsername });
 
-  function createNewCard() {
-    const newCardData = getNewCardData(items);
+  feed.prepend(cardElement);
+}
 
-    const newCard = new Card({
-      data: newCardData,
-      cardSelector: ".feed__post-template",
-      handleCardClick: () => {},
-    });
-    const cardElement = newCard.generateCard();
+function disablePostButton() {
+  document.querySelector(".form-post__name").value = "";
+  document.querySelector(".form-post__url").value = "";
 
-    feed.prepend(cardElement);
-
-    function resetFormData() {
-      document.querySelector(".form-post__name").value = "";
-      document.querySelector(".form-post__url").value = "";
-      disablePostButton();
-    }
-
-    resetFormData();
-  }
-
-  createNewCard();
+  const formPostElement = document.querySelector(".form-post");
+  const buttonPostElement = formPostElement.querySelector(".form-post__save");
+  buttonPostElement.classList.add("form__submit_inactive");
+  buttonPostElement.disabled = true;
 }
 
 // delete button
@@ -140,17 +123,18 @@ const deleteButtons = document.querySelectorAll(".feed__trash-button");
 deleteButtons.forEach(function (button) {
   setDeletePopupEventListener(button);
 });
+const popupConfirm = new PopupConfirm({
+  popupSelector: "form-confirm",
+});
 
 function setDeletePopupEventListener(button) {
   button.addEventListener("click", function () {
     const clickedButton = button.closest(".feed__trash-button");
     if (clickedButton) {
       const card = button.closest(".feed__post");
-      const deletePost = new PopupConfirm({
-        popupSelector: "form-confirm",
-        card,
-      });
-      deletePost.open();
+
+      popupConfirm.setCardId(card.id);
+      popupConfirm.open();
     }
   });
 }
@@ -164,19 +148,40 @@ heartButtons.forEach(function (button) {
 });
 
 function setLikeEventListener(button) {
-  button.addEventListener("click", function () {
+  button.addEventListener("click", () => {
     const clickedButton = button.closest(".feed__heart-button");
     const heartImage = button.querySelector(".feed__heart-image");
-    if (clickedButton) {
-      heartImage.classList.toggle("feed__heart-button_on");
+    const like = button.querySelector(".feed__heart-likes");
 
-      // Cambiar el atributo "alt" de la imagen
-      if (heartImage.alt === "Corazón con me gusta") {
-        heartImage.alt = "Corazón sin me gusta";
-      } else {
-        heartImage.alt = "Corazón con me gusta";
+    const likeHandler = new Api({
+      groupId: "web_es_09",
+      baseUrl: "https://around.nomoreparties.co/v1",
+      resource: "cards",
+    });
+
+    if (
+      clickedButton &&
+      !heartImage.classList.contains("feed__heart-button_on")
+    ) {
+      heartImage.classList.toggle("feed__heart-button_on");
+      like.textContent = parseInt(like.textContent) + 1;
+      likeHandler.setLike(like.id);
+      if (parseInt(like.textContent) >= 1) {
+        like.style.color = "black";
+      }
+    } else if (heartImage.classList.contains("feed__heart-button_on")) {
+      heartImage.classList.toggle("feed__heart-button_on");
+      like.textContent = parseInt(like.textContent) - 1;
+      likeHandler.removeLike(like.id);
+      if (parseInt(like.textContent) === 0) {
+        like.style.color = "transparent";
       }
     }
+
+    heartImage.alt =
+      heartImage.alt === "Corazón con me gusta"
+        ? "Corazón sin me gusta"
+        : "Corazón con me gusta";
   });
 }
 

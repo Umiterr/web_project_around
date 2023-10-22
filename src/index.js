@@ -28,7 +28,6 @@ import * as FormValidator from "./FormValidator.js";
 //Popups imports
 import PopupWithImage from "./PopupWithImage.js";
 import PopupWithForm from "./PopupWithForm.js";
-import PopupProfileImage from "./PopupProfileImage";
 
 //UserInfo import
 import UserInfo from "./UserInfo.js";
@@ -41,20 +40,146 @@ const apiCards = new Api({
   resource: "cards",
 });
 
-const Cards = apiCards.getInitialCards().then((result) => {
-  console.log(result);
-  return result;
-});
-
-console.log(Cards);
+const cardsOnline = await apiCards
+  .getInitialCards()
+  .then((result) => {
+    return result;
+  })
+  .catch((error) => {
+    console.log(error);
+  });
 
 const imagePopup = new PopupWithImage({ popupSelector: "image-popup" });
 
-//Render default cards
+//Profile
 
+const apiProfileInfo = new Api({
+  groupId: "web_es_09",
+  baseUrl: "https://around.nomoreparties.co/v1",
+  resource: "users",
+});
+
+const profileOnlineInfo = await apiProfileInfo
+  .getUserInfo()
+  .then((result) => {
+    return result;
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+
+const profileForm = new PopupWithForm({
+  popupSelector: "form-profile",
+  handleFormSubmit: (formData) => {
+    const UserData = new UserInfo({
+      nameSelector: ".profile__info-name",
+      jobSelector: ".profile__about",
+    });
+
+    UserData.setUserInfo({
+      name: formData.nombre,
+      job: formData.trabajo,
+    });
+
+    apiProfileInfo
+      .setUserInfo({
+        name: formData.nombre,
+        about: formData.trabajo,
+      })
+      .then(function () {
+        const formPost = document.querySelector(".form-profile");
+        formPost.classList.remove("form-profile_on");
+        const buttonSave = document.querySelector(".form-profile__save");
+        buttonSave.textContent = "Guardar";
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+    const buttonSave = document.querySelector(".form-profile__save");
+    buttonSave.textContent = "Cargando...";
+  },
+});
+
+// Default Profile info
+const userDataDefault = new UserInfo({
+  nameSelector: ".profile__info-name",
+  jobSelector: ".profile__about",
+  imageSelector: ".profile__image",
+});
+
+userDataDefault.setUserInfo({
+  name: profileOnlineInfo.name,
+  job: profileOnlineInfo.about,
+});
+
+// Default form input Profile info
+const profileValues = userDataDefault.getUserInfo();
+profileForm.setInputValues({
+  input1: profileOnlineInfo.name,
+  input2: profileOnlineInfo.about,
+});
+
+// Image Profile editor
+const profileImageButton = document.querySelector(".profile__edit-icon");
+setImageProfileEventListener(profileImageButton);
+
+function setImageProfileEventListener(button) {
+  button.addEventListener("click", () => {
+    const imageProfilePopup = new PopupWithForm({
+      popupSelector: "form-image-profile",
+      handleFormSubmit: (formData) => {
+        formData.preventDefault();
+        const userDataImage = new UserInfo({
+          nameSelector: ".profile__info-name",
+          jobSelector: ".profile__about",
+          imageSelector: ".profile__image",
+        });
+        userDataImage.setUserImage({
+          image: formData.target[0].value,
+        });
+        const buttonSave = document.querySelector(".form-image-profile__save");
+        buttonSave.textContent = "Cargando...";
+        const userOnlineImage = new Api({
+          groupId: "web_es_09",
+          baseUrl: "https://around.nomoreparties.co/v1",
+          resource: "users",
+        });
+
+        userOnlineImage
+          .setUserImage(formData.target[0].value)
+          .then(() => {
+            const formImageProfile = document.querySelector(
+              ".form-image-profile"
+            );
+            formImageProfile.classList.remove("form-image-profile_on");
+            const buttonSave = document.querySelector(
+              ".form-image-profile__save"
+            );
+            buttonSave.textContent = "Guardar";
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      },
+    });
+
+    const profileEditImageButton = document.querySelector(
+      ".profile__edit-image-button"
+    );
+
+    profileEditImageButton.addEventListener("click", () => {
+      imageProfilePopup.open();
+    });
+  });
+}
+
+console.log(cardsOnline);
+
+//Render online cards
 const cardsList = new Section(
   {
-    items: items,
+    items: cardsOnline,
     renderer: (cardItem) => {
       const newCard = new Card({
         data: cardItem,
@@ -67,7 +192,10 @@ const cardsList = new Section(
           imagePopup.open(title, imageURL);
         },
       });
-      const cardElement = newCard.generateCard();
+      const cardElement = newCard.generateCard({
+        cardOnline: cardItem,
+        clientUsername: profileOnlineInfo.name,
+      });
 
       cardsList.addItem(cardElement);
     },
@@ -79,56 +207,44 @@ cardsList.renderItems();
 
 //Popups
 
-//Profile
-const profileForm = new PopupWithForm({
-  popupSelector: "form-profile",
-  handleFormSubmit: (formData) => {
-    const UserData = new UserInfo({
-      nameSelector: ".profile__info-name",
-      jobSelector: ".profile__about",
-    });
-    UserData.setUserInfo({
-      name: formData.nombre,
-      job: formData.trabajo,
-    });
-  },
-});
-
-// Default Profile info
-const userDataDefault = new UserInfo({
-  nameSelector: ".profile__info-name",
-  jobSelector: ".profile__about",
-});
-
-const profileValues = userDataDefault.getUserInfo();
-profileForm.setInputValues({
-  input1: profileValues.name,
-  input2: profileValues.job,
-});
-
-// Image Profile editor
-const profileImageButton = document.querySelector(".profile__edit-icon");
-setImageProfileEventListener(profileImageButton);
-
-function setImageProfileEventListener(button) {
-  button.addEventListener("click", () => {
-    const imageProfilePopup = new PopupProfileImage({
-      popupSelector: "form-image-profile",
-    });
-    const profileEditImageButton = document.querySelector(
-      ".profile__edit-image-button"
-    );
-
-    profileEditImageButton.addEventListener("click", () => {
-      imageProfilePopup.open();
-    });
-  });
-}
-
 //Post
+
+const apiPost = new Api({
+  groupId: "web_es_09",
+  baseUrl: "https://around.nomoreparties.co/v1",
+  resource: "cards",
+});
+
+const formPostName = document.querySelector(".form-post__name");
+const formPostURL = document.querySelector(".form-post__url");
+
+const sendNewCard = function () {
+  const buttonSave = document.querySelector(".form-post__save");
+  buttonSave.textContent = "Cargando...";
+  apiPost
+    .setNewCard({
+      title: formPostName.value,
+      imageURL: formPostURL.value,
+    })
+    .then(function (card) {
+      const newCardData = {
+        cardOnline: card,
+        clientUsername: profileOnlineInfo.name,
+      };
+
+      addNewCard(newCardData);
+      const formPost = document.querySelector(".form-post");
+      formPost.classList.remove(`form-post_on`);
+      buttonSave.textContent = "Guardar";
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+};
+
 const postForm = new PopupWithForm({
   popupSelector: "form-post",
-  handleFormSubmit: addNewCard,
+  handleFormSubmit: sendNewCard,
 });
 
 const postButton = document.querySelector(".profile__add-button");
@@ -182,3 +298,9 @@ popupimagecloseimage.src = closepic;
 
 const profileeditimage = document.getElementById("profile-edit-icon");
 profileeditimage.src = profileeditpic;
+
+//Default online user profile image
+
+userDataDefault.setUserImage({
+  image: profileOnlineInfo.avatar,
+});

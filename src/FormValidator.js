@@ -14,14 +14,14 @@ class FormValidator {
   }
 
   _showInputError(inputElement, errorMessage) {
-    const errorElement = this._errorElement;
+    const errorElement = this["_errorElement-" + inputElement.id];
     inputElement.classList.add(this._config.inputErrorClass);
     errorElement.textContent = errorMessage;
     errorElement.classList.add(this._config.errorClass);
   }
 
   _hideInputError(inputElement) {
-    const errorElement = this._errorElement;
+    const errorElement = this["_errorElement-" + inputElement.id];
     inputElement.classList.remove(this._config.inputErrorClass);
     errorElement.classList.remove(this._config.errorClass);
     errorElement.textContent = "";
@@ -60,9 +60,8 @@ class FormValidator {
     );
 
     inputList.forEach((inputElement) => {
-      this._errorElement = this._formElement.querySelector(
-        `.${inputElement.id}-error`
-      );
+      this["_errorElement-" + inputElement.id] =
+        this._formElement.querySelector(`.${inputElement.id}-error`);
       inputElement.addEventListener("input", () => {
         this._checkInputValidity(inputElement);
         this._toggleButtonState(inputList, buttonElement);
@@ -71,7 +70,6 @@ class FormValidator {
   }
 
   enableValidation() {
-    console.log(this._formElement);
     this._formElement.addEventListener("submit", (evt) => {
       evt.preventDefault();
     });
