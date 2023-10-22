@@ -13,7 +13,13 @@
       </header>
 
       <section class="profile">
-        <button class="profile__edit-image-button"><img class="profile__edit-icon" id="profile-edit-icon" alt="icono de editar imagen" /></button>
+        <button class="profile__edit-image-button">
+          <img
+            class="profile__edit-icon"
+            id="profile-edit-icon"
+            alt="icono de editar imagen"
+          />
+        </button>
         <img class="profile__image" id="profile-image" alt="imagen de perfil" />
         <div class="profile__info">
           <h2 class="profile__info-name">Jacques Cousteau</h2>
@@ -51,7 +57,6 @@
               />
               <p class="feed__heart-likes"></p>
             </button>
-            
           </div>
         </template>
       </section>
@@ -121,9 +126,9 @@
               placeholder="URL de la imagen"
               required
             />
-            <span class="form__input-error url-profile-image-input-error
-            "
-              >Este campo es obligatorio</span>
+            <span class="form__input-error url-profile-image-input-error"
+              >Este campo es obligatorio</span
+            >
             <button
               class="form__submit form-image-profile__save form__submit_inactive"
               type="submit"
@@ -194,15 +199,10 @@
               alt="icono de cerrar"
             />
           </button>
-          
-            <button
-              class="form__submit form-confirm__save"
-              type="submit"
-              
-            >
-              Si
-            </button>
-          </form>
+
+          <button class="form__submit form-confirm__save" type="submit">
+            Si
+          </button>
         </div>
         <div class="form-confirm__BG"></div>
       </section>
